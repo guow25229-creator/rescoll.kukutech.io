@@ -491,75 +491,50 @@ const submitBtn = resumeForm.querySelector('.submit-btn');
 
 resumeForm.addEventListener('submit', async function(e){
   e.preventDefault();
-  
-  // 校验
-  if(!fileInput.files.length){
-    showToast('⚠️ 请先上传简历');
-    return;
-  }
+  if(!fileInput.files.length){showToast('⚠️ 请先上传简历');return;}
 
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
   const role = document.getElementById('role').value;
+  const file = fileInput.files[0];
 
-  // 显示加载
-  showLoading();
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="btn-shine"></span>⏳ 提交中...';
 
   try {
-    // 模拟提交（解决微信/Safari跨域问题，默认开启）
-    if(SIMULATE_SUBMIT){
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      showToast('✅ 简历提交成功！我们会尽快联系你');
-      resumeForm.reset();
-      fileName.textContent = '';
-      return;
-    }
-
-    // 真实GitHub提交（电脑浏览器可用）
-    const file = fileInput.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    
-    await new Promise((resolve, reject) => {
-      reader.onloadend = async () => {
-        try {
-          const base64 = reader.result.split(',')[1];
-          const filename = `${Date.now()}_${name}_${file.name}`;
-          const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FOLDER}/${filename}`;
+    reader.onloadend = async () => {
+      const base64 = reader.result.split(',')[1];
+      const filename = `${Date.now()}_${name}_${file.name}`;
+      const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FOLDER}/${filename}`;
 
-          const res = await fetch(url, {
-            method: 'PUT',
-            headers: {
-              "Authorization": `token ${GITHUB_TOKEN}`,
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              message: `应聘 ${role} | ${name} | ${email}`,
-              content: base64
-            })
-          });
+      const res = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          "Authorization": `token ${GITHUB_TOKEN}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: `应聘 ${role} | ${name} | ${email}`,
+          content: base64
+        })
+      });
 
-          if(res.ok){
-            showToast('✅ 简历提交成功！');
-            resumeForm.reset();
-            fileName.textContent = '';
-            resolve();
-          }else{
-            const err = await res.json();
-            reject(new Error(err.message));
-          }
-        } catch (e) {
-          reject(e);
-        }
-      };
-      reader.onerror = reject;
-    });
-
+      if(res.ok){
+        showToast('✅ 简历投递成功！');
+        resumeForm.reset();
+        fileName.textContent = '';
+      }else{
+        const err = await res.json();
+        showToast('❌ 失败：'+err.message);
+      }
+    }
   }catch(err){
-    console.error(err);
-    showToast('❌ 提交失败，请稍后重试');
+    showToast('❌ 网络异常，请稍后重试');
   }finally{
-    hideLoading();
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<span class="btn-shine"></span>🚀 提交简历';
   }
 });
 </script>
