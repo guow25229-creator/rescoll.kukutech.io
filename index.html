@@ -413,7 +413,7 @@ function showToast(msg){
 resumeForm.addEventListener('submit', async function(e){
   e.preventDefault();
   if(!fileInput.files.length){
-    showToast('⚠️ 请先上传简历文件');
+    alert('⚠️ 请先上传简历'); // alert 永远可见
     return;
   }
 
@@ -422,10 +422,9 @@ resumeForm.addEventListener('submit', async function(e){
   const role = document.getElementById('role').value;
   const file = fileInput.files[0];
 
+  // ========== 这里是关键：按钮马上变提交中，100%看得见 ==========
   submitBtn.disabled = true;
-  submitBtn.innerHTML = '<span class="btn-shine"></span>⏳ 提交中...';
-  // ✅ 点击马上提示，不等待上传
-  showToast('⏳ 正在提交简历，请稍候...');
+  submitBtn.innerHTML = '⏳ 提交中，请稍候...';
 
   try {
     const reader = new FileReader();
@@ -448,19 +447,19 @@ resumeForm.addEventListener('submit', async function(e){
       });
 
       if(res.ok){
-        showToast('✅ 简历提交成功！我们会尽快联系你');
+        alert('✅ 简历提交成功！我们会尽快联系你');
         resumeForm.reset();
         fileName.textContent = '';
       }else{
         const err = await res.json();
-        showToast('❌ 提交失败：请将简历发送至邮箱mia.guo@kukutech.io');
+        alert('❌ 提交失败：' + err.message);
       }
     }
   }catch(err){
-    showToast('❌ 网络异常，请稍后重试');
+    alert('❌ 网络异常，请稍后重试');
   }finally{
     submitBtn.disabled = false;
-    submitBtn.innerHTML = '<span class="btn-shine"></span>🚀 提交简历';
+    submitBtn.innerHTML = '🚀 提交简历';
   }
 });
 </script>
