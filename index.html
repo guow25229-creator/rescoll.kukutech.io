@@ -407,56 +407,90 @@ fileInput.addEventListener('change',()=>{if(fileInput.files.length)fileName.text
 const resumeForm = document.getElementById('resumeForm');
 const submitBtn = resumeForm.querySelector('.submit-btn');
 
-resumeForm.addEventListener('submit', async function(e){
+resumeForm.addEventListener('submit', async function (e) {
   e.preventDefault();
   tipSuccess.style.display = 'none';
   tipError.style.display = 'none';
 
-  if(!fileInput.files.length){
+  // 校验文件
+  if (!fileInput.files.length) {
     tipError.textContent = '请上传简历文件';
     tipError.style.display = 'block';
     return;
   }
 
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
   const role = document.getElementById('role').value;
   const file = fileInput.files[0];
 
+  // 基础表单校验（新增）
+  if (!name) {
+    tipError.textContent = '请输入姓名';
+    tipError.style.display = 'block';
+    return;
+  }
+  if (!email) {
+    tipError.textContent = '请输入邮箱';
+    tipError.style.display = 'block';
+    return;
+  }
+
+  // 按钮禁用
   submitBtn.disabled = true;
   submitBtn.innerHTML = '⏳ 提交中，请稍候...';
 
   try {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = async () => {
-      const base64 = reader.result.split(',')[1];
-      const filename = `${Date.now()}_${name}_${file.name}`;
-      const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FOLDER}/${filename}`;
+    // 把 FileReader 包装成 Promise，解决异步顺序错乱
+    const base64 = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        try {
+          const result = reader.result.split(',')[1];
+          resolve(result);
+        } catch (err) {
+          reject(new Error('文件解析失败'));
+        }
+      };
+      reader.onerror = () => reject(reader.error);
+    });
 
-      const res = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          "Authorization": `token ${GITHUB_TOKEN}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({message:`应聘 ${role} | ${name} | ${email}`,content:base64})
-      });
+    // 拼接上传路径
+    const filename = `${Date.now()}_${name}_${file.name}`;
+    const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FOLDER}/${filename}`;
 
-      if(res.ok){
-        tipSuccess.textContent = '简历投递成功';
-        tipSuccess.style.display = 'block';
-        resumeForm.reset();
-        fileName.textContent = '';
-      }else{
-        tipError.textContent = '提交失败，请稍后重试';
-        tipError.style.display = 'block';
-      }
-    };
-  }catch(err){
-    tipError.textContent = '网络异常，请稍后重试';
+    // 上传到 GitHub
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        "Authorization": `token ${GITHUB_TOKEN}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: `应聘 ${role} | ${name} | ${email}`,
+        content: base64
+      })
+    });
+
+    // 解析 GitHub 返回的错误信息
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.message || '上传失败');
+
+    // 成功
+    tipSuccess.textContent = '简历投递成功！';
+    tipSuccess.style.display = 'block';
+    resumeForm.reset();
+    fileName.textContent = '';
+
+  } catch (err) {
+    console.error('上传错误：', err);
+    // 显示真实错误，方便排查
+    tipError.textContent = err.message || '提交失败，请稍后重试';
     tipError.style.display = 'block';
-  }finally{
+    tipError.style.display = 'block';
+  } finally {
+    // 上传彻底完成后才恢复按钮
     submitBtn.disabled = false;
     submitBtn.innerHTML = '🚀 提交简历';
   }
