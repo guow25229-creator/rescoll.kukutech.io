@@ -426,10 +426,6 @@ resumeForm.addEventListener('submit', async function(e){
   submitBtn.disabled = true;
   submitBtn.innerHTML = '⏳ 提交中，请稍候...';
 
-  // 第一步：立刻显示【投递中】提示
-  tipSuccess.textContent = '简历投递中';
-  tipSuccess.style.display = 'block';
-
   try {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -448,18 +444,16 @@ resumeForm.addEventListener('submit', async function(e){
       });
 
       if(res.ok){
-        // 第二步：成功后替换文字
         tipSuccess.textContent = '简历投递成功';
+        tipSuccess.style.display = 'block';
         resumeForm.reset();
         fileName.textContent = '';
       }else{
-        tipSuccess.style.display = 'none';
         tipError.textContent = '提交失败，请稍后重试';
         tipError.style.display = 'block';
       }
     };
   }catch(err){
-    tipSuccess.style.display = 'none';
     tipError.textContent = '网络异常，请稍后重试';
     tipError.style.display = 'block';
   }finally{
