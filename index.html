@@ -169,6 +169,7 @@
     <p id="heroText"></p><span class="typing-cursor"></span>
   </section>
 
+  <!-- 关于我们 -->
   <section class="about" id="aboutSection">
     <div class="section-title"><span class="icon">🏢</span>关于我们</div>
     <div class="about-text">
@@ -180,12 +181,16 @@
 
   <div class="divider"></div>
 
+  <!-- 岗位详情 -->
   <section class="card" id="cardPositions">
     <div class="section-title"><span class="icon">🚀</span>热招岗位</div>
     <div class="positions">
-      <div classjd-card" data-role="AI Agent 开发工程师">
+
+      <!-- Agent 开发工程师 -->
+      <div class="jd-card" data-role="AI Agent 开发工程师">
         <h3>AI Agent 开发工程师 <small>远程优先</small></h3>
         <p class="desc">打造可投入生产环境的 AI Agent，用于自动化化工工程工作流。你的代码将直接服务真实用户、分析复杂工程数据、生成有价值的洞察，并无缝融入工程师的实际工作流程。</p>
+
         <div class="jd-section">
           <h4>📋 你将负责</h4>
           <ul>
@@ -194,18 +199,75 @@
             <li>与客户及创始团队直接合作，利用 AI 解决真实世界中的工业问题</li>
           </ul>
         </div>
+
+        <div class="jd-section">
+          <h4>✅ 我们希望你</h4>
+          <ul>
+            <li>具备很强的执行力和主人翁精神，能够在高不确定性、快节奏的环境中主动推进事项</li>
+            <li>熟悉 LangChain、LlamaIndex、Claude Agent SDK 等主流 Agent 框架，具备实际项目经验</li>
+            <li>熟练掌握 LLM、Agent 编排（orchestration）以及 tool calling 机制</li>
+            <li>熟悉 Python，并能够熟练使用 AI 编程工具进行 feature 迭代</li>
+          </ul>
+        </div>
+
+        <div class="jd-section">
+          <h4>⭐ 加分项</h4>
+          <ul>
+            <li>做过完整的 Agent 项目（课程、个人、比赛、开源贡献均可）</li>
+            <li>了解化工工程、流程工业，或 CAD / 3D 建模工具原理</li>
+            <li>有创业经历，或担任过早期核心工程师</li>
+          </ul>
+        </div>
+
         <div class="jd-tags">
           <span class="tag">LangChain</span><span class="tag">LlamaIndex</span><span class="tag">LLM</span><span class="tag">Python</span><span class="tag">Tool Calling</span>
           <span class="tag--accent tag">远程优先</span>
         </div>
       </div>
+
+      <!-- 全栈工程师 -->
       <div class="jd-card" data-role="全栈工程师">
         <h3>全栈工程师 <small>远程优先</small></h3>
-        <p class="desc">负责 ProcAgent 产品全链路开发，从前端交互到后端架构，打造极致用户体验的高性能 Web 应用。</p>
+        <p class="desc">负责 ProcAgent 产品全链路开发，从前端交互到后端架构，打造极致用户体验的高性能 Web 应用，让化工工程师真正爱上使用 AI。</p>
+
+        <div class="jd-section">
+          <h4>📋 你将负责</h4>
+          <ul>
+            <li>设计和实现产品的前端界面与交互逻辑，追求极致的用户体验</li>
+            <li>构建和维护后端 API 服务、数据库设计及系统架构</li>
+            <li>端到端功能交付，从需求理解到上线部署，保障产品质量和性能</li>
+          </ul>
+        </div>
+
+        <div class="jd-section">
+          <h4>✅ 我们希望你</h4>
+          <ul>
+            <li>精通 React / Vue 等现代前端框架，熟悉 TypeScript</li>
+            <li>熟悉 Node.js / Python 后端开发，了解 RESTful API 和 WebSocket</li>
+            <li>有全栈项目经验，能独立完成从 0 到 1 的功能开发</li>
+            <li>注重代码质量，有良好的工程实践习惯</li>
+          </ul>
+        </div>
+
+        <div class="jd-section">
+          <h4>⭐ 加分项</h4>
+          <ul>
+            <li>有复杂 Web 应用（如在线编辑器、数据可视化、实时协作）开发经验</li>
+            <li>了解化工工程或工业软件领域</li>
+            <li>有创业经历，理解如何在速度与质量之间取得平衡</li>
+          </ul>
+        </div>
+
+        <div class="jd-tags">
+          <span class="tag">React</span><span class="tag">Node.js</span><span class="tag">TypeScript</span><span class="tag">Python</span><span class="tag">WebSocket</span>
+          <span class="tag--accent tag">远程优先</span>
+        </div>
       </div>
+
     </div>
   </section>
 
+  <!-- 为什么加入 -->
   <section class="card" id="cardPerks">
     <div class="section-title"><span class="icon">💡</span>为什么加入 kuku</div>
     <div class="perks">
@@ -218,6 +280,16 @@
         <div class="perk__icon">🤖</div>
         <div class="perk__title">AI 前沿</div>
         <div class="perk__desc">使用最新 LLM，构建面向复杂工业流程的 Agent 工作流</div>
+      </div>
+      <div class="perk">
+        <div class="perk__icon">👥</div>
+        <div class="perk__title">精干团队</div>
+        <div class="perk__desc">加入高密度小团队，你的 ownership 和创造力都会被看见</div>
+      </div>
+      <div class="perk">
+        <div class="perk__icon">🚀</div>
+        <div class="perk__title">上升空间</div>
+        <div class="perk__desc">站在 AI 颠覆传统工作方式的时代前沿</div>
       </div>
     </div>
   </section>
