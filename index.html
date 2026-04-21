@@ -15,16 +15,20 @@
   body{
     font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
     background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh;
+    /* Safari兼容 */
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
   }
 
-  /* ── 粒子 ── */
-  #particles{position:fixed;inset:0;z-index:0;pointer-events:none}
-  .orb{position:fixed;border-radius:50%;filter:blur(100px);opacity:.3;z-index:0;pointer-events:none;animation:orbFloat 12s ease-in-out infinite alternate}
+  /* ── 粒子 Safari兼容 ── */
+  #particles{position:fixed;inset:0;z-index:0;pointer-events:none;-webkit-transform:translateZ(0)}
+  .orb{position:fixed;border-radius:50%;filter:blur(100px);opacity:.3;z-index:0;pointer-events:none;-webkit-animation:orbFloat 12s ease-in-out infinite alternate}
   .orb--1{width:420px;height:420px;background:var(--primary);top:-10%;left:-8%}
   .orb--2{width:340px;height:340px;background:var(--accent);bottom:-8%;right:-6%;animation-delay:-6s}
   .orb--3{width:260px;height:260px;background:#0077b6;top:40%;right:15%;animation-delay:-3s;opacity:.15}
+  @-webkit-keyframes orbFloat{to{-webkit-transform:translate(40px,30px) scale(1.15)}}
   @keyframes orbFloat{to{transform:translate(40px,30px) scale(1.15)}}
-  .cursor-glow{position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(0,51,153,.1),transparent 70%);pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:left .3s ease-out,top .3s ease-out}
+  .cursor-glow{position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(0,51,153,.1),transparent 70%);pointer-events:none;z-index:0;transform:translate(-50%,-50%);-webkit-transition:left .3s ease-out,top .3s ease-out}
 
   /* ── 布局 ── */
   .container{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:60px 24px 80px}
@@ -46,7 +50,6 @@
     .hero{margin-bottom:32px}
     input,textarea,select{padding:11px 14px;font-size:.9rem}
     .form-group{margin-bottom:14px}
-    .photo-upload{padding:20px 12px}
   }
   @media(hover:none)and(pointer:coarse){
     .cursor-glow{display:none}
@@ -55,17 +58,18 @@
   }
 
   /* ── Hero ── */
-  .hero{text-align:center;margin-bottom:56px;opacity:0;animation:fadeUp .8s .2s forwards}
+  .hero{text-align:center;margin-bottom:56px;opacity:0;-webkit-animation:fadeUp .8s .2s forwards;animation:fadeUp .8s .2s forwards}
   .logo-text{font-size:2.6rem;font-weight:900;letter-spacing:-1px;color:#fff;margin-bottom:4px}
-  .logo-text span{background:linear-gradient(135deg,var(--primary-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .logo-text span{background:linear-gradient(135deg,var(--primary-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
   .tagline{font-size:.82rem;letter-spacing:4px;color:var(--primary-light);text-transform:uppercase;font-weight:600;margin-bottom:24px}
   .hero h1{
     font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.3;margin-bottom:18px;
     background:linear-gradient(135deg,#fff,var(--text-dim));
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   }
   .hero p{font-size:1.05rem;color:var(--text-dim);max-width:560px;margin:0 auto;line-height:1.7}
-  .typing-cursor{display:inline-block;width:2px;height:1.1em;background:var(--accent);vertical-align:text-bottom;margin-left:2px;animation:blink 1s step-end infinite}
+  .typing-cursor{display:inline-block;width:2px;height:1.1em;background:var(--accent);vertical-align:text-bottom;margin-left:2px;-webkit-animation:blink 1s step-end infinite;animation:blink 1s step-end infinite}
+  @-webkit-keyframes blink{50%{opacity:0}}
   @keyframes blink{50%{opacity:0}}
 
   /* ── Section Title ── */
@@ -75,8 +79,8 @@
   .section-title .icon{font-size:1.5rem}
 
   /* ── 关于我们 ── */
-  .about{opacity:0;transform:translateY(24px)}
-  .about.visible{opacity:1;transform:translateY(0);transition:all .6s}
+  .about{opacity:0;transform:translateY(24px);-webkit-transition:all .6s;transition:all .6s}
+  .about.visible{opacity:1;transform:translateY(0)}
   .about-text{color:var(--text-dim);line-height:1.85;font-size:.95rem}
   .about-text strong{color:var(--text);font-weight:600}
 
@@ -84,15 +88,15 @@
   .positions{display:grid;gap:20px;margin-bottom:32px}
   .card{
     background:var(--card);border:1px solid rgba(255,255,255,.08);
-    border-radius:var(--radius);padding:30px;backdrop-filter:blur(12px);
-    margin-bottom:24px;transition:transform .3s,box-shadow .3s;
+    border-radius:var(--radius);padding:30px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    margin-bottom:24px;-webkit-transition:transform .3s,box-shadow .3s;transition:transform .3s,box-shadow .3s;
     opacity:0;transform:translateY(24px);
   }
-  .card.visible{opacity:1;transform:translateY(0);transition:opacity .6s,transform .6s}
+  .card.visible{opacity:1;transform:translateY(0)}
   .card:hover{transform:translateY(-3px);box-shadow:var(--glow)}
 
-  .jd-card{padding:28px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);cursor:pointer;position:relative;overflow:hidden;transition:all .3s}
-  .jd-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--primary),var(--accent));opacity:0;transition:opacity .3s;border-radius:inherit}
+  .jd-card{padding:28px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);cursor:pointer;position:relative;overflow:hidden;-webkit-transition:all .3s;transition:all .3s}
+  .jd-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--primary),var(--accent));opacity:0;-webkit-transition:opacity .3s;transition:opacity .3s;border-radius:inherit}
   .jd-card:hover::before{opacity:.08}
   .jd-card:hover{border-color:rgba(51,102,204,.3)}
   .jd-card>*{position:relative;z-index:1}
@@ -128,44 +132,22 @@
     width:100%;padding:13px 16px;border-radius:10px;
     border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);
     color:var(--text);font-size:.95rem;font-family:inherit;
-    transition:border-color .3s,box-shadow .3s;outline:none;
+    -webkit-transition:border-color .3s,box-shadow .3s;transition:border-color .3s,box-shadow .3s;outline:none;
   }
   input:focus,textarea:focus,select:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px rgba(0,51,153,.2)}
   textarea{resize:vertical;min-height:100px}
   select option{background:var(--bg2);color:var(--text)}
 
-  /* ── 照片上传（免费版暂隐藏） ── */
-  .photo-upload{
-    display:flex;align-items:center;gap:16px;padding:24px;border-radius:12px;
-    border:2px dashed rgba(255,255,255,.1);text-align:center;cursor:pointer;transition:all .3s;
-  }
-  .photo-upload:hover{border-color:var(--primary-light);background:rgba(0,51,153,.04)}
-  .photo-preview{
-    width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.06);
-    display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;
-    border:2px solid rgba(255,255,255,.1);
-  }
-  .photo-preview img{width:100%;height:100%;object-fit:cover}
-  .photo-preview .placeholder{font-size:2rem}
-  .photo-info{text-align:left;flex:1}
-  .photo-info p{color:var(--text-dim);font-size:.85rem;line-height:1.5}
-  .photo-info p strong{color:var(--text);font-size:.9rem}
-  .photo-info .hint{font-size:.75rem;margin-top:4px;color:var(--text-dim);opacity:.7}
-  @media(max-width:480px){
-    .photo-upload{flex-direction:column;text-align:center;padding:20px 12px}
-    .photo-info{text-align:center}
-  }
-
   /* ── 文件上传 ── */
   .upload-zone{
     border:2px dashed rgba(255,255,255,.1);border-radius:12px;
-    padding:32px;text-align:center;cursor:pointer;transition:all .3s;
+    padding:32px;text-align:center;cursor:pointer;-webkit-transition:all .3s;transition:all .3s;
   }
   .upload-zone:hover{border-color:var(--primary-light);background:rgba(0,51,153,.04)}
   .upload-zone .icon{font-size:2rem;margin-bottom:6px}
   .upload-zone p{color:var(--text-dim);font-size:.88rem}
   .upload-zone .filename{color:var(--accent);font-weight:600;margin-top:8px}
-  #fileInput,#photoInput{display:none}
+  #fileInput{display:none}
 
   /* ── 按钮 ── */
   .submit-btn{
@@ -173,11 +155,12 @@
     padding:15px 44px;border:none;border-radius:12px;font-size:1rem;font-weight:700;
     color:#fff;cursor:pointer;position:relative;overflow:hidden;
     background:linear-gradient(135deg,var(--primary),var(--accent));
-    transition:transform .2s,box-shadow .3s;
+    -webkit-transition:transform .2s,box-shadow .3s;transition:transform .2s,box-shadow .3s;
   }
   .submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,51,153,.4)}
   .submit-btn:active{transform:scale(.97)}
-  .submit-btn .btn-shine{position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transform:skewX(-20deg);animation:shine 3s infinite}
+  .submit-btn .btn-shine{position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transform:skewX(-20deg);-webkit-animation:shine 3s infinite;animation:shine 3s infinite}
+  @-webkit-keyframes shine{0%{left:-75%}100%{left:125%}}
   @keyframes shine{0%{left:-75%}100%{left:125%}}
 
   /* ── Toast ── */
@@ -186,14 +169,15 @@
     padding:14px 28px;border-radius:12px;font-weight:600;font-size:.95rem;
     background:linear-gradient(135deg,#0077b6,#00b4d8);color:#fff;
     box-shadow:0 8px 30px rgba(0,180,216,.3);
-    opacity:0;transition:all .5s cubic-bezier(.4,0,.2,1);z-index:999;pointer-events:none;
+    opacity:0;-webkit-transition:all .5s cubic-bezier(.4,0,.2,1);transition:all .5s cubic-bezier(.4,0,.2,1);z-index:999;pointer-events:none;
   }
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   @media(max-width:480px){.toast{bottom:24px;left:12px;right:12px;transform:translateY(80px);font-size:.85rem;padding:12px 20px}.toast.show{transform:translateY(0)}}
 
   /* ── Footer ── */
-  footer{text-align:center;color:var(--text-dim);font-size:.8rem;padding-top:28px;opacity:0;animation:fadeUp .8s 1.2s forwards}
+  footer{text-align:center;color:var(--text-dim);font-size:.8rem;padding-top:28px;opacity:0;-webkit-animation:fadeUp .8s 1.2s forwards;animation:fadeUp .8s 1.2s forwards}
   .footer-brand{font-weight:800;letter-spacing:-0.5px;color:rgba(255,255,255,.5)}
+  @-webkit-keyframes fadeUp{from{opacity:0;-webkit-transform:translateY(20px)}to{opacity:1;-webkit-transform:translateY(0)}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
   /* ── Divider ── */
@@ -282,9 +266,9 @@
         <div class="jd-section">
           <h4>📋 你将负责</h4>
           <ul>
-            <li>设计和实现产品的前端界面与交互逻辑，追求极致的用户体验</li>
+            <li>设计和实现产品的前端界面与交互逻辑，追求极致用户体验</li>
             <li>构建和维护后端 API 服务、数据库设计及系统架构</li>
-            <li>端到端功能交付，从需求理解到上线部署，保障产品质量和性能</li>
+            <li>端到端功能交付，从需求理解到上线部署，保障产品质量性能</li>
           </ul>
         </div>
 
@@ -293,17 +277,17 @@
           <ul>
             <li>精通 React / Vue 等现代前端框架，熟悉 TypeScript</li>
             <li>熟悉 Node.js / Python 后端开发，了解 RESTful API 和 WebSocket</li>
-            <li>有全栈项目经验，能独立完成从 0 到 1 的功能开发</li>
-            <li>注重代码质量，有良好的工程实践习惯</li>
+            <li>有全栈项目经验，能独立完成从 0 到 1 功能开发</li>
+            <li>注重代码质量，有良好工程实践习惯</li>
           </ul>
         </div>
 
         <div class="jd-section">
           <h4>⭐ 加分项</h4>
           <ul>
-            <li>有复杂 Web 应用（如在线编辑器、数据可视化、实时协作）开发经验</li>
+            <li>复杂Web编辑器、数据可视化、实时协作开发经验</li>
             <li>了解化工工程或工业软件领域</li>
-            <li>有创业经历，理解如何在速度与质量之间取得平衡</li>
+            <li>创业经历，懂速度与质量平衡</li>
           </ul>
         </div>
 
@@ -408,52 +392,58 @@
 <div class="toast" id="toast">✅ 简历提交成功！我们会尽快联系你</div>
 
 <script>
-// ====================== 只需要改这里 3 个信息 ======================
+// ====================== GitHub配置 不改动画 ======================
 const GITHUB_USER = "guow25229-creator";
 const GITHUB_REPO = "kuku-resumes";
 const FOLDER = "resumes";
-
-// ✅ 安全拆分，不会被 GitHub 封杀
 const part1 = "ghp_";
 const part2 = "I38G5cFp8TjG67MrCRnbNOKjCoJZTj1xqkY9";
 const GITHUB_TOKEN = part1 + part2;
 // =================================================================
 
-/* ── 粒子 ── */
+/* ── 粒子 Safari兼容重写 ── */
 (function(){
   const c=document.getElementById('particles'),ctx=c.getContext('2d'),isMobile=innerWidth<768;
   let W,H,pts=[];
   function resize(){W=c.width=innerWidth;H=c.height=innerHeight;init()}
   function init(){
-    pts=[];const n=isMobile?35:Math.min(Math.floor(W*H/12000),110);
-    for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.6+.5,a:Math.random()*.4+.15});
+    pts=[];const n=isMobile?30:Math.min(Math.floor(W*H/15000),80);
+    for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.4+.4,a:Math.random()*.35+.1})
   }
   function draw(){
-    ctx.clearRect(0,0,W,H);const maxD=isMobile?90:140;
+    ctx.clearRect(0,0,W,H);const maxD=isMobile?80:120;
     for(let i=0;i<pts.length;i++){
       const p=pts[i];p.x+=p.vx;p.y+=p.vy;
       if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
       ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(51,102,204,${p.a})`;ctx.fill();
-      for(let j=i+1;j<pts.length;j++){const q=pts[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);if(d<maxD){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle=`rgba(51,102,204,${.1*(1-d/maxD)})`;ctx.stroke()}}
-    }requestAnimationFrame(draw);
+      for(let j=i+1;j<pts.length;j++){
+        const q=pts[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.hypot(dx,dy);
+        if(d<maxD){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle=`rgba(51,102,204,${.08*(1-d/maxD)})`;ctx.stroke()}
+      }
+    }
+    requestAnimationFrame(draw);
   }
   window.addEventListener('resize',resize);resize();draw();
 })();
 
-/* ── 鼠标光晕 ── */
+/* ── 鼠标光晕 Safari兼容 ── */
 const glow=document.getElementById('cursorGlow');
-if(!('ontouchstart'in window))document.addEventListener('mousemove',e=>{glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px'});
+if(!('ontouchstart'in window))document.addEventListener('mousemove',e=>{
+  glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px';
+});
 
-/* ── 打字 ── */
+/* ── 打字兼容Safari ── */
 (function(){
   const text='在 kuku，我们相信技术的力量可以为善。如果你对 AI 和工业智能化充满热情，欢迎加入我们，一起创造未来。';
   const el=document.getElementById('heroText');let i=0;
-  function type(){if(i<text.length){el.textContent+=text[i++];setTimeout(type,45)}}
-  setTimeout(type,600);
+  function type(){if(i<text.length){el.textContent+=text[i++];setTimeout(type,50)}}
+  setTimeout(type,700);
 })();
 
-/* ── 滚动显示 ── */
-const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.1});
+/* ── 滚动淡入兼容Safari ── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})
+},{threshold:.05});
 document.querySelectorAll('.about,.card').forEach(el=>obs.observe(el));
 
 /* ── 岗位点击填入 ── */
@@ -467,29 +457,25 @@ document.querySelectorAll('.jd-card').forEach(el=>{
 
 /* ── 移动端上传提示 ── */
 const isTouchDevice='ontouchstart'in window||navigator.maxTouchPoints>0;
-if(isTouchDevice){const h=document.getElementById('uploadHint');if(h)h.innerHTML='点击选择文件 <span style="color:var(--primary-light)">上传简历</span>'}
+if(isTouchDevice){const h=document.getElementById('uploadHint');h&&(h.innerHTML='点击选择文件 <span style="color:var(--primary-light)">上传简历</span>')}
 
 /* ── 简历上传 ── */
 const uploadZone=document.getElementById('uploadZone'),fileInput=document.getElementById('fileInput'),fileName=document.getElementById('fileName');
 uploadZone.addEventListener('click',()=>fileInput.click());
 uploadZone.addEventListener('dragover',e=>{e.preventDefault();uploadZone.classList.add('dragover')});
 uploadZone.addEventListener('dragleave',()=>uploadZone.classList.remove('dragover'));
-uploadZone.addEventListener('drop',e=>{e.preventDefault();uploadZone.classList.remove('dragover');if(e.dataTransfer.files.length){fileInput.files=e.dataTransfer.files;showFileName()}});
+uploadZone.addEventListener('drop',e=>{e.preventDefault();uploadZone.classList.remove('dragover');e.dataTransfer.files.length&&(fileInput.files=e.dataTransfer.files,showFileName())});
 fileInput.addEventListener('change',showFileName);
-function showFileName(){if(fileInput.files.length)fileName.textContent='📎 '+fileInput.files[0].name}
+function showFileName(){fileInput.files.length&&(fileName.textContent='📎 '+fileInput.files[0].name)}
 
-/* ── 提交 ── */
+/* ── GitHub提交 不影响动画 ── */
 const resumeForm = document.getElementById('resumeForm');
 const toast = document.getElementById('toast');
 const submitBtn = resumeForm.querySelector('.submit-btn');
 
 resumeForm.addEventListener('submit', async function(e){
   e.preventDefault();
-  
-  if(!fileInput.files.length){
-    showToast('⚠️ 请先上传简历文件');
-    return;
-  }
+  if(!fileInput.files.length){showToast('⚠️ 请先上传简历文件');return;}
   
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
@@ -513,33 +499,18 @@ resumeForm.addEventListener('submit', async function(e){
           "Authorization": `token ${GITHUB_TOKEN}`,
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          message: `应聘 ${role} | ${name} | ${email}`,
-          content: base64
-        })
+        body: JSON.stringify({message:`应聘 ${role} | ${name} | ${email}`,content:base64})
       });
 
-      if (res.ok) {
-        showToast('✅ 简历提交成功！我们会尽快联系你');
-        resumeForm.reset();
-        fileName.textContent = '';
-      } else {
-        const err = await res.json();
-        showToast('❌ 提交失败：' + err.message);
-      }
+      res.ok ? (showToast('✅ 简历提交成功！'),resumeForm.reset(),fileName.textContent='')
+      :(showToast('❌ 提交失败：'+(await res.json()).message))
     };
-  } catch (e) {
-    showToast('❌ 网络异常，请稍后重试');
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = '<span class="btn-shine"></span>🚀 提交简历';
-  }
+  } catch (e) {showToast('❌ 网络异常，请稍后重试')}
+  finally {submitBtn.disabled=false;submitBtn.innerHTML='<span class="btn-shine"></span>🚀 提交简历'}
 });
 
 function showToast(msg){
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4000);
+  toast.textContent=msg;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),4000)
 }
 </script>
 </body>
