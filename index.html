@@ -337,8 +337,12 @@ const submitBtn = resumeForm.querySelector('.submit-btn');
 
 resumeForm.addEventListener('submit', async function(e){
   e.preventDefault();
+  tipSuccess.style.display = 'none';
+  tipError.style.display = 'none';
+
   if(!fileInput.files.length){
-    alert('⚠️ 请先上传简历文件');
+    tipError.textContent = '请上传简历文件';
+    tipError.style.display = 'block';
     return;
   }
 
@@ -347,9 +351,12 @@ resumeForm.addEventListener('submit', async function(e){
   const role = document.getElementById('role').value;
   const file = fileInput.files[0];
 
-  // 一点提交，按钮马上变加载，所有人都看得见
   submitBtn.disabled = true;
   submitBtn.innerHTML = '⏳ 提交中，请稍候...';
+
+  // 第一步：立刻显示【投递中】提示
+  tipSuccess.textContent = '简历投递中';
+  tipSuccess.style.display = 'block';
 
   try {
     const reader = new FileReader();
@@ -369,16 +376,20 @@ resumeForm.addEventListener('submit', async function(e){
       });
 
       if(res.ok){
-        alert('✅ 简历提交成功！我们会尽快联系你');
+        // 第二步：成功后替换文字
+        tipSuccess.textContent = '简历投递成功';
         resumeForm.reset();
         fileName.textContent = '';
       }else{
-        const err = await res.json();
-        alert('❌ 提交失败：'+err.message);
+        tipSuccess.style.display = 'none';
+        tipError.textContent = '提交失败，请稍后重试';
+        tipError.style.display = 'block';
       }
     };
   }catch(err){
-    alert('❌ 网络异常，请稍后重试');
+    tipSuccess.style.display = 'none';
+    tipError.textContent = '网络异常，请稍后重试';
+    tipError.style.display = 'block';
   }finally{
     submitBtn.disabled = false;
     submitBtn.innerHTML = '🚀 提交简历';
