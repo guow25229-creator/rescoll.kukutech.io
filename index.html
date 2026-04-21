@@ -453,7 +453,7 @@ resumeForm.addEventListener('submit', async function(e){
         fileName.textContent = '';
       }else{
         const err = await res.json();
-        showToast('❌ 提交失败：'+err.message);
+        showToast('❌ 提交失败：请将简历发送至邮箱mia.guo@kukutech.io');
       }
     }
   }catch(err){
