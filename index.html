@@ -146,15 +146,6 @@
   .submit-btn .btn-shine{position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transform:skewX(-20deg);animation:shine 3s infinite}
   @keyframes shine{0%{left:-75%}100%{left:125%}}
 
-  .toast{
-    position:fixed;bottom:40px;left:50%;transform:translateX(-50%) translateY(80px);
-    padding:14px 28px;border-radius:12px;font-weight:600;font-size:.95rem;
-    background:linear-gradient(135deg,#0077b6,#00b4d8);color:#fff;
-    box-shadow:0 8px 30px rgba(0,180,216,.3);
-    opacity:0;transition:all .5s cubic-bezier(.4,0,.2,1);z-index:9999!important;pointer-events:none;
-  }
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
   footer{text-align:center;color:var(--text-dim);font-size:.8rem;padding-top:28px;opacity:0;animation:fadeUp .8s 1.2s forwards}
   .footer-brand{font-weight:800;letter-spacing:-0.5px;color:rgba(255,255,255,.5)}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -171,7 +162,6 @@
 <div class="cursor-glow" id="cursorGlow"></div>
 
 <div class="container">
-
   <section class="hero">
     <div class="logo-text"><span>kuku</span></div>
     <div class="tagline">Tech for Good</div>
@@ -193,7 +183,7 @@
   <section class="card" id="cardPositions">
     <div class="section-title"><span class="icon">🚀</span>热招岗位</div>
     <div class="positions">
-      <div class="jd-card" data-role="AI Agent 开发工程师">
+      <div classjd-card" data-role="AI Agent 开发工程师">
         <h3>AI Agent 开发工程师 <small>远程优先</small></h3>
         <p class="desc">打造可投入生产环境的 AI Agent，用于自动化化工工程工作流。你的代码将直接服务真实用户、分析复杂工程数据、生成有价值的洞察，并无缝融入工程师的实际工作流程。</p>
         <div class="jd-section">
@@ -204,15 +194,6 @@
             <li>与客户及创始团队直接合作，利用 AI 解决真实世界中的工业问题</li>
           </ul>
         </div>
-        <div class="jd-section">
-          <h4>✅ 我们希望你</h4>
-          <ul>
-            <li>具备很强的执行力和主人翁精神，能够在高不确定性、快节奏的环境中主动推进事项</li>
-            <li>熟悉 LangChain、LlamaIndex、Claude Agent SDK 等主流 Agent 框架，具备实际项目经验</li>
-            <li>熟练掌握 LLM、Agent 编排以及 tool calling 机制</li>
-            <li>熟悉 Python，并能够熟练使用 AI 编程工具迭代功能</li>
-          </ul>
-        </div>
         <div class="jd-tags">
           <span class="tag">LangChain</span><span class="tag">LlamaIndex</span><span class="tag">LLM</span><span class="tag">Python</span><span class="tag">Tool Calling</span>
           <span class="tag--accent tag">远程优先</span>
@@ -221,27 +202,6 @@
       <div class="jd-card" data-role="全栈工程师">
         <h3>全栈工程师 <small>远程优先</small></h3>
         <p class="desc">负责 ProcAgent 产品全链路开发，从前端交互到后端架构，打造极致用户体验的高性能 Web 应用。</p>
-        <div class="jd-section">
-          <h4>📋 你将负责</h4>
-          <ul>
-            <li>设计和实现产品前端交互，追求极致用户体验</li>
-            <li>构建后端 API、数据库与整体系统架构</li>
-            <li>端到端功能交付，从需求到上线全流程负责</li>
-          </ul>
-        </div>
-        <div class="jd-section">
-          <h4>✅ 我们希望你</h4>
-          <ul>
-            <li>精通 React / Vue、TypeScript</li>
-            <li>熟悉 Node.js / Python 后端、REST、WebSocket</li>
-            <li>有独立全栈项目 0→1 开发经验</li>
-            <li>注重代码质量与工程规范</li>
-          </ul>
-        </div>
-        <div class="jd-tags">
-          <span class="tag">React</span><span class="tag">Node.js</span><span class="tag">TypeScript</span><span class="tag">Python</span><span class="tag">WebSocket</span>
-          <span class="tag--accent tag">远程优先</span>
-        </div>
       </div>
     </div>
   </section>
@@ -258,16 +218,6 @@
         <div class="perk__icon">🤖</div>
         <div class="perk__title">AI 前沿</div>
         <div class="perk__desc">使用最新 LLM，构建面向复杂工业流程的 Agent 工作流</div>
-      </div>
-      <div class="perk">
-        <div class="perk__icon">👥</div>
-        <div class="perk__title">精干团队</div>
-        <div class="perk__desc">加入高密度小团队，你的 ownership 和创造力都会被看见</div>
-      </div>
-      <div class="perk">
-        <div class="perk__icon">🚀</div>
-        <div class="perk__title">上升空间</div>
-        <div class="perk__desc">站在 AI 颠覆传统工作方式的时代前沿</div>
       </div>
     </div>
   </section>
@@ -333,16 +283,15 @@
   </footer>
 </div>
 
-<div class="toast" id="toast">✅ 简历提交成功！我们会尽快联系你</div>
-
 <script>
-const GITHUB_USER = "guow25229-creator";
+const GITHUB_USER = "guow25229-crearor";
 const GITHUB_REPO = "kuku-resumes";
 const FOLDER = "resumes";
 const part1 = "ghp_";
 const part2 = "I38G5cFp8TjG67MrCRnbNOKjCoJZTj1xqkY9";
 const GITHUB_TOKEN = part1 + part2;
 
+// 粒子动画
 (function(){
   const c=document.getElementById('particles'),ctx=c.getContext('2d'),isMobile=innerWidth<768;
   let W,H,pts=[];
@@ -380,40 +329,16 @@ document.querySelectorAll('.jd-card').forEach(el=>{
 
 const uploadZone=document.getElementById('uploadZone'),fileInput=document.getElementById('fileInput'),fileName=document.getElementById('fileName');
 uploadZone.addEventListener('click',()=>fileInput.click());
-uploadZone.addEventListener('dragover',e=>e.preventDefault());
-uploadZone.addEventListener('drop',e=>{e.preventDefault();if(e.dataTransfer.files.length){fileInput.files=e.dataTransfer.files;showFileName()}});
-fileInput.addEventListener('change',showFileName);
-function showFileName(){if(fileInput.files.length)fileName.textContent='📎 '+fileInput.files[0].name}
+fileInput.addEventListener('change',()=>{if(fileInput.files.length)fileName.textContent='📎 '+fileInput.files[0].name});
 
+// Safari 完美提交：按钮立刻显示提交中 + alert弹窗
 const resumeForm = document.getElementById('resumeForm');
-const toast = document.getElementById('toast');
 const submitBtn = resumeForm.querySelector('.submit-btn');
-
-// 重点修复：Safari 电脑弹窗不显示
-// 【Safari 专用修复：100%弹出提示】
-function showToast(msg){
-function showToast(msg){
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-
-  toast.style.display = 'none';
-  toast.offsetHeight; // Safari强制刷新
-
-  toast.style.display = 'block';
-  toast.style.opacity = '1';
-  toast.style.transform = 'translateX(-50%) translateY(0)';
-
-  setTimeout(()=>{
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateX(-50%) translateY(80px)';
-    setTimeout(()=>toast.style.display='none',500);
-  },3200);
-}
 
 resumeForm.addEventListener('submit', async function(e){
   e.preventDefault();
   if(!fileInput.files.length){
-    alert('⚠️ 请先上传简历'); // alert 永远可见
+    alert('⚠️ 请先上传简历文件');
     return;
   }
 
@@ -422,7 +347,7 @@ resumeForm.addEventListener('submit', async function(e){
   const role = document.getElementById('role').value;
   const file = fileInput.files[0];
 
-  // ========== 这里是关键：按钮马上变提交中，100%看得见 ==========
+  // 一点提交，按钮马上变加载，所有人都看得见
   submitBtn.disabled = true;
   submitBtn.innerHTML = '⏳ 提交中，请稍候...';
 
@@ -440,10 +365,7 @@ resumeForm.addEventListener('submit', async function(e){
           "Authorization": `token ${GITHUB_TOKEN}`,
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          message: `应聘 ${role} | ${name} | ${email}`,
-          content: base64
-        })
+        body: JSON.stringify({message:`应聘 ${role} | ${name} | ${email}`,content:base64})
       });
 
       if(res.ok){
@@ -452,9 +374,9 @@ resumeForm.addEventListener('submit', async function(e){
         fileName.textContent = '';
       }else{
         const err = await res.json();
-        alert('❌ 提交失败：' + err.message);
+        alert('❌ 提交失败：'+err.message);
       }
-    }
+    };
   }catch(err){
     alert('❌ 网络异常，请稍后重试');
   }finally{
