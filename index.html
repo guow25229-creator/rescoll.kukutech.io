@@ -8,75 +8,132 @@
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
   :root{
     --primary:#003399;--primary-light:#3366cc;--accent:#00b4d8;
-    --bg:#0a0e1a;--bg2:#101628;--card:rgba(255,255,255,.05);--text:#e8e8ec;--text-dim:#888;
-    --radius:16px;
+    --bg:#0a0e1a;--bg2:#101e3a;--card:rgba(255,255,255,.05);--text:#e8e8ec;--text-dim:#888;
+    --radius:16px;--glow:0 0 40px rgba(0,51,153,.2);
   }
   html{scroll-behavior:smooth}
   body{
-    font-family:system-ui, sans-serif;
+    font-family:'Segoe UI',sans-serif;
     background:var(--bg);color:var(--text);
-    min-height:100vh;
+    min-height:100vh;overflow-x:hidden;
   }
-  .container{max-width:800px;margin:0 auto;padding:40px 20px}
-  .upload-zone{border:2px dashed #444;border-radius:12px;padding:30px;text-align:center;margin:20px 0;cursor:pointer}
-  .upload-zone:hover{border-color:var(--primary-light)}
+
+  #particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .orb{position:fixed;border-radius:50%;background:var(--primary);opacity:.2;filter:blur(80px);z-index:0}
+  .orb1{width:420px;height:420px;top:-100px;left:-100px}
+  .orb2{width:340px;height:340px;bottom:-100px;right:-100px}
+  .orb3{width:260px;height:260px;top:40%;right:10%}
+
+  .container{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:60px 20px}
+  .card{background:var(--card);border-radius:var(--radius);padding:30px;margin-bottom:30px;backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08)}
+  .section-title{font-size:22px;margin-bottom:20px;color:#fff}
+
+  .hero{text-align:center;padding:40px 0}
+  .logo-text{font-size:32px;font-weight:900;margin-bottom:10px}
+  .tagline{color:var(--primary-light);margin-bottom:20px}
+
   .form-group{margin:16px 0}
-  input,textarea,select{width:100%;padding:14px;border-radius:8px;background:#111;border:1px solid #333;color:#fff;margin-top:6px}
-  .submit-btn{background:linear-gradient(90deg,#003399,#3366cc);color:white;border:0;padding:16px 30px;border-radius:10px;font-weight:bold;margin-top:10px;width:100%}
-  .toast{position:fixed;bottom:30px;left:50%;transform:translate(-50%);background:#0077b6;padding:14px 24px;border-radius:10px;opacity:0;transition:0.3s}
+  .form-group label{display:block;margin-bottom:6px;font-weight:500}
+  input,textarea,select{
+    width:100%;padding:14px;border-radius:10px;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+    color:#fff;font-size:15px
+  }
+  .upload-zone{
+    border:2px dashed rgba(255,255,255,.2);border-radius:12px;padding:30px;text-align:center;
+    margin:10px 0;cursor:pointer;transition:.3s
+  }
+  .upload-zone:hover{border-color:var(--primary-light)}
+  .submit-btn{
+    background:linear-gradient(90deg,#003399,#3366cc);color:white;border:none;
+    padding:16px 30px;border-radius:12px;font-weight:bold;width:100%;margin-top:10px;
+    font-size:16px;cursor:pointer
+  }
+
+  .toast{
+    position:fixed;bottom:30px;left:50%;transform:translate(-50%);
+    background:#0077b6;padding:14px 24px;border-radius:10px;
+    color:#fff;opacity:0;transition:.3s;z-index:999
+  }
   .toast.show{opacity:1}
+
+  .divider{height:1px;background:rgba(255,255,255,.1);margin:40px 0}
 </style>
 </head>
 <body>
 
+<div id="particles"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
 <div class="container">
-  <h2>投递简历</h2>
-  <form id="resumeForm">
-    <div class="form-group">
-      <label>姓名 *</label>
-      <input type="text" id="name" required>
-    </div>
-    <div class="form-group">
-      <label>邮箱 *</label>
-      <input type="email" id="email" required>
-    </div>
-    <div class="form-group">
-      <label>电话 *</label>
-      <input type="tel" id="phone" required>
-    </div>
-    <div class="form-group">
-      <label>意向岗位 *</label>
-      <select id="role" required>
-        <option value="">请选择</option>
-        <option>AI Agent 开发工程师</option>
-        <option>全栈工程师</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>上传简历 *</label>
-      <div class="upload-zone" id="uploadZone">点击或拖拽上传 PDF / DOCX</div>
-      <input type="file" id="fileInput" accept=".pdf,.docx" hidden required>
-    </div>
-    <button type="submit" class="submit-btn">提交简历</button>
-  </form>
-  <div class="toast" id="toast"></div>
+  <div class="hero">
+    <div class="logo-text"><span>kuku</span></div>
+    <div class="tagline">Tech for Good</div>
+    <h1>用 AI 重新定义工业可能</h1>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="card">
+    <div class="section-title">关于我们</div>
+    <p>我们正在打造 <strong>ProcAgent</strong>，帮助化工工程师以更高效率、更智能化、更高精度的方式工作。我们正在寻找优秀的人才加入！</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 投递简历表单 -->
+  <div class="card">
+    <div class="section-title">投递简历</div>
+    <form id="resumeForm">
+      <div class="form-group">
+        <label>姓名 *</label>
+        <input type="text" id="name" required>
+      </div>
+      <div class="form-group">
+        <label>邮箱 *</label>
+        <input type="email" id="email" required>
+      </div>
+      <div class="form-group">
+        <label>电话 *</label>
+        <input type="tel" id="phone" required>
+      </div>
+      <div class="form-group">
+        <label>意向岗位 *</label>
+        <select id="role" required>
+          <option value="">请选择岗位</option>
+          <option>AI Agent 开发工程师</option>
+          <option>全栈工程师</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>上传简历 *</label>
+        <div class="upload-zone" id="uploadZone">点击或拖拽上传 PDF / DOCX</div>
+        <input type="file" id="fileInput" accept=".pdf,.docx" hidden required>
+      </div>
+      <button type="submit" class="submit-btn">🚀 提交简历</button>
+    </form>
+  </div>
 </div>
 
-<script>
-// ====================== 已经帮你全部配置好！ ======================
-const GITHUB_USER = "guow25229-creator";      // 改成你自己的
-const GITHUB_REPO = "kuku-resumes";       // 仓库名
-const FOLDER = "resumes";
+<div class="toast" id="toast"></div>
 
-// ✅ 安全拆分，GitHub 不会封杀
+<script>
+// ====================== 你只需要填这 2 个 ======================
+const GITHUB_USER = "guow25229-creator";      // 👈 改成你的
+const GITHUB_REPO = "kuku-resumes";       // 👈 仓库名
+// ==============================================================
+
 const part1 = "ghp_";
 const part2 = "I38G5cFp8TjG67MrCRnbNOKjCoJZTj1xqkY9";
 const GITHUB_TOKEN = part1 + part2;
-// =================================================================
+const FOLDER = "resumes";
 
 const uploadZone = document.getElementById('uploadZone');
 const fileInput = document.getElementById('fileInput');
 const form = document.getElementById('resumeForm');
+const toast = document.getElementById('toast');
 let selectedFile;
 
 uploadZone.onclick = () => fileInput.click();
@@ -118,6 +175,7 @@ form.onsubmit = async (e) => {
         showMsg("✅ 提交成功！");
         form.reset();
         uploadZone.textContent = "点击或拖拽上传 PDF / DOCX";
+        selectedFile = null;
       } else {
         const err = await res.json();
         showMsg("❌ 失败：" + err.message);
@@ -129,10 +187,9 @@ form.onsubmit = async (e) => {
 };
 
 function showMsg(text) {
-  const t = document.getElementById('toast');
-  t.textContent = text;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  toast.textContent = text;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
 }
 </script>
 </body>
