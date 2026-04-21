@@ -390,15 +390,28 @@ const toast = document.getElementById('toast');
 const submitBtn = resumeForm.querySelector('.submit-btn');
 
 // 重点修复：Safari 电脑弹窗不显示
+// 【Safari 专用修复：100%弹出提示】
 function showToast(msg){
+  const toast = document.getElementById('toast');
   toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(()=>{toast.classList.remove('show')},4000);
+  // Safari强制重绘
+  toast.style.display = 'block';
+  toast.style.opacity = 1;
+  toast.style.transform = 'translateX(-50%) translateY(0)';
+
+  setTimeout(()=>{
+    toast.style.opacity = 0;
+    toast.style.transform = 'translateX(-50%) translateY(80px)';
+    setTimeout(()=>toast.style.display='none',500);
+  },3500);
 }
 
 resumeForm.addEventListener('submit', async function(e){
   e.preventDefault();
-  if(!fileInput.files.length){showToast('⚠️ 请先上传简历');return;}
+  if(!fileInput.files.length){
+    showToast('⚠️ 请先上传简历');
+    return;
+  }
 
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
