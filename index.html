@@ -392,24 +392,28 @@ const submitBtn = resumeForm.querySelector('.submit-btn');
 // 重点修复：Safari 电脑弹窗不显示
 // 【Safari 专用修复：100%弹出提示】
 function showToast(msg){
+function showToast(msg){
   const toast = document.getElementById('toast');
   toast.textContent = msg;
-  // Safari强制重绘
+
+  toast.style.display = 'none';
+  toast.offsetHeight; // Safari强制刷新
+
   toast.style.display = 'block';
-  toast.style.opacity = 1;
+  toast.style.opacity = '1';
   toast.style.transform = 'translateX(-50%) translateY(0)';
 
   setTimeout(()=>{
-    toast.style.opacity = 0;
+    toast.style.opacity = '0';
     toast.style.transform = 'translateX(-50%) translateY(80px)';
     setTimeout(()=>toast.style.display='none',500);
-  },3500);
+  },3200);
 }
 
 resumeForm.addEventListener('submit', async function(e){
   e.preventDefault();
   if(!fileInput.files.length){
-    showToast('⚠️ 请先上传简历');
+    showToast('⚠️ 请先上传简历文件');
     return;
   }
 
@@ -420,6 +424,8 @@ resumeForm.addEventListener('submit', async function(e){
 
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<span class="btn-shine"></span>⏳ 提交中...';
+  // ✅ 点击马上提示，不等待上传
+  showToast('⏳ 正在提交简历，请稍候...');
 
   try {
     const reader = new FileReader();
