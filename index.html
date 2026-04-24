@@ -112,8 +112,8 @@
 
   .form-group{margin-bottom:20px}
   .form-group label{display:block;font-size:.88rem;margin-bottom:7px;color:var(--text-dim);font-weight:500}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  @media(max-width:560px){.form-row{grid-template-columns:1fr}}
+  /* ✅ 竖排：始终单列 */
+  .form-row{display:grid;grid-template-columns:1fr;gap:0}
   input,textarea,select{
     width:100%;padding:13px 16px;border-radius:10px;
     border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);
@@ -219,6 +219,7 @@
           <span class="tag">LangChain</span><span class="tag">LlamaIndex</span><span class="tag">LLM</span><span class="tag">Python</span><span class="tag">Tool Calling</span>
         </div>
       </div>
+    </div>
   </section>
 
   <section class="card" id="cardPerks">
@@ -252,29 +253,31 @@
   <section class="card" id="cardForm">
     <div class="section-title"><span class="icon">📝</span>投递简历</div>
     <form id="resumeForm">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="name">姓名 *</label>
-          <input type="text" name="name" id="name" placeholder="请输入姓名" required>
-        </div>
-        <div class="form-group">
-          <label for="email">邮箱 *</label>
-          <input type="email" name="email" id="email" placeholder="your@email.com" required>
-        </div>
+      <!-- ✅ 姓名 -->
+      <div class="form-group">
+        <label for="name">姓名 *</label>
+        <input type="text" name="name" id="name" placeholder="请输入姓名" required>
       </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label for="phone">手机号 *</label>
-          <input type="tel" name="phone" id="phone" required placeholder="138-xxxx-xxxx">
-        </div>
-    
 
+      <!-- ✅ 邮箱 -->
+      <div class="form-group">
+        <label for="email">邮箱 *</label>
+        <input type="email" name="email" id="email" placeholder="your@email.com" required>
+      </div>
+
+      <!-- ✅ 手机号 -->
+      <div class="form-group">
+        <label for="phone">手机号 *</label>
+        <input type="tel" name="phone" id="phone" required placeholder="138-xxxx-xxxx">
+      </div>
+
+      <!-- ✅ 自我介绍 -->
       <div class="form-group">
         <label for="intro">自我介绍</label>
         <textarea name="message" id="intro" placeholder="简单介绍你的经历、优势和为什么想加入 kuku..."></textarea>
       </div>
 
+      <!-- ✅ 上传简历 -->
       <div class="form-group">
         <label>上传简历 *</label>
         <div class="upload-zone" id="uploadZone">
@@ -344,7 +347,6 @@ document.querySelectorAll('.about,.card').forEach(el=>obs.observe(el));
 
 document.querySelectorAll('.jd-card').forEach(el=>{
   el.addEventListener('click',()=>{
-    document.getElementById('role').value=el.dataset.role;
     document.getElementById('cardForm').scrollIntoView({behavior:'smooth'});
   });
 });
@@ -377,11 +379,11 @@ resumeForm.addEventListener('submit', async (e) => {
 
   const formData = new FormData(resumeForm);
   const file = fileInput.files[0];
-  
+
   try {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    
+
     reader.onloadend = async () => {
       const base64 = reader.result.split(',')[1];
       const filename = `${Date.now()}_${formData.get('name')}_${file.name}`;
@@ -394,7 +396,7 @@ resumeForm.addEventListener('submit', async (e) => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          message: `应聘 ${formData.get('role')} | ${formData.get('name')}`,
+          message: `应聘 ${formData.get('name')}`,
           content: base64
         })
       });
