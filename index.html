@@ -18,24 +18,29 @@
   }
 
   #particles{position:fixed;inset:0;z-index:0;pointer-events:none}
-  .orb{position:fixed;border-radius:50%;filter:blur(100px);opacity:.3;z-index:0;pointer-events:none;animation:orbFloat 12s ease-in-out infinite alternate}
+  .orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:.42;z-index:0;pointer-events:none;animation:orbFloat 12s ease-in-out infinite alternate}
   .orb--1{width:420px;height:420px;background:var(--primary);top:-10%;left:-8%}
   .orb--2{width:340px;height:340px;background:var(--accent);bottom:-8%;right:-6%;animation-delay:-6s}
   .orb--3{width:260px;height:260px;background:#0077b6;top:40%;right:15%;animation-delay:-3s;opacity:.15}
   @keyframes orbFloat{to{transform:translate(40px,30px) scale(1.15)}}
-  .cursor-glow{position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(0,51,153,.1),transparent 70%);pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:left .3s ease-out,top .3s ease-out}
+  .cursor-glow{position:fixed;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(0,90,220,.18),transparent 70%);pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:left .3s ease-out,top .3s ease-out}
 
-  .container{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:60px 24px 80px}
+  .container{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:52px 24px 80px}
 
   @media(max-width:768px){
     .container{padding:36px 16px 60px}
-    .hero{margin-bottom:40px}
+    .hero{margin-bottom:36px}
+    .logo-image{width:min(72vw,300px);margin-bottom:20px}
     .hero h1{font-size:clamp(1.5rem,7vw,2.2rem)}
     .hero p{font-size:.88rem}
     .section-title{font-size:1.1rem!important}
     .card{padding:22px 16px}
-    .jd-card{padding:18px 14px}
-    .jd-card h3{font-size:1rem}
+    .positions{grid-template-columns:1fr}
+    .jd-card{padding:22px 18px}
+    .jd-card h3{font-size:1.18rem}
+    .jd-card p.desc{font-size:.94rem}
+    .jd-section h4{font-size:.94rem}
+    .jd-section ul li{font-size:.9rem}
     .submit-btn{width:100%;justify-content:center}
   }
   @media(max-width:480px){
@@ -50,8 +55,8 @@
     .card:hover,.pos:hover::before{opacity:0}
   }
 
-  .hero{text-align:center;margin-bottom:56px;opacity:0;animation:fadeUp .8s .2s forwards}
-  .logo-image{display:block;width:min(100%,620px);height:auto;margin:0 auto 28px;object-fit:contain}
+  .hero{text-align:center;margin-bottom:44px;opacity:0;animation:fadeUp .8s .2s forwards}
+  .logo-image{display:block;width:min(64vw,360px);height:auto;margin:0 auto 20px;object-fit:contain}
   .hero h1{
     font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;line-height:1.3;margin-bottom:18px;
     background:linear-gradient(135deg,#fff,var(--text-dim));
@@ -71,31 +76,31 @@
   .about-text{color:var(--text-dim);line-height:1.85;font-size:.95rem}
   .about-text strong{color:var(--text);font-weight:600}
 
-  .positions{display:grid;gap:20px;margin-bottom:32px}
+  .positions{display:grid;grid-template-columns:1fr;gap:24px;margin-bottom:32px}
   .card{
     background:var(--card);border:1px solid rgba(255,255,255,.08);
-    border-radius:var(--radius);padding:30px;backdrop-filter:blur(12px);
+    border-radius:var(--radius);padding:34px;backdrop-filter:blur(12px);
     margin-bottom:24px;transition:transform .3s,box-shadow .3s;
     opacity:0;transform:translateY(24px);
   }
   .card.visible{opacity:1;transform:translateY(0);transition:opacity .6s,transform .6s}
   .card:hover{transform:translateY(-3px);box-shadow:var(--glow)}
 
-  .jd-card{padding:28px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);cursor:pointer;position:relative;overflow:hidden;transition:all .3s}
+  .jd-card{padding:30px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);cursor:pointer;position:relative;overflow:hidden;transition:all .3s}
   .jd-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--primary),var(--accent));opacity:0;transition:opacity .3s;border-radius:inherit}
   .jd-card:hover::before{opacity:.08}
   .jd-card:hover{border-color:rgba(51,102,204,.3)}
   .jd-card>*{position:relative;z-index:1}
-  .jd-card h3{font-size:1.15rem;font-weight:700;margin-bottom:6px;color:#fff}
+  .jd-card h3{font-size:1.35rem;font-weight:700;margin-bottom:10px;color:#fff}
   .jd-card h3 small{font-weight:40;color:var(--accent);font-size:.85rem;margin-left:8px}
-  .jd-card p.desc{color:var(--text-dim);font-size:.88rem;line-height:1.6;margin-bottom:14px}
-  .jd-section{margin-top:14px}
-  .jd-section h4{font-size:.88rem;font-weight:600;color:var(--primary-light);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .jd-card p.desc{color:var(--text-dim);font-size:.98rem;line-height:1.75;margin-bottom:18px}
+  .jd-section{margin-top:18px}
+  .jd-section h4{font-size:.98rem;font-weight:600;color:var(--primary-light);margin-bottom:10px;display:flex;align-items:center;gap:6px}
   .jd-section ul{list-style:none;padding:0}
-  .jd-section ul li{color:var(--text-dim);font-size:.85rem;line-height:1.7;padding-left:16px;position:relative}
+  .jd-section ul li{color:var(--text-dim);font-size:.94rem;line-height:1.75;padding-left:17px;position:relative}
   .jd-section ul li::before{content:'';position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
   .jd-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
-  .tag{font-size:.72rem;padding:3px 10px;border-radius:20px;background:rgba(0,51,153,.18);color:var(--primary-light)}
+  .tag{font-size:.8rem;padding:4px 11px;border-radius:20px;background:rgba(0,51,153,.18);color:var(--primary-light)}
   .tag--accent{background:rgba(0,180,216,.15);color:var(--accent)}
 
   .perks{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px}
@@ -156,11 +161,27 @@
     border: 1px solid rgba(0,180,216,.3);
   }
 
+  .qr-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+  .qr-card{text-align:center;padding:22px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+  .qr-card h3{font-size:1rem;margin-bottom:14px}
+  .qr-card img{display:block;width:100%;max-width:260px;aspect-ratio:1;object-fit:contain;margin:0 auto 14px;border-radius:10px;background:#fff}
+  .qr-link{display:block;color:var(--accent);font-size:.82rem;overflow-wrap:anywhere;margin-bottom:12px}
+  .qr-download{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border-radius:9px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;text-decoration:none;font-size:.86rem;font-weight:700}
+  @media(max-width:560px){.qr-grid{grid-template-columns:1fr}.qr-card img{max-width:240px}}
   footer{text-align:center;color:var(--text-dim);font-size:.8rem;padding-top:28px;opacity:0;animation:fadeUp .8s 1.2s forwards}
   .footer-brand{font-weight:800;letter-spacing:-0.5px;color:rgba(255,255,255,.5)}
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
   .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);margin:36px 0}
+  @media(max-width:768px){
+    .positions{grid-template-columns:1fr}
+    .logo-image{width:min(72vw,300px);margin-bottom:20px}
+    .jd-card{padding:22px 18px}
+    .jd-card h3{font-size:1.18rem}
+    .jd-card p.desc{font-size:.94rem}
+    .jd-section h4{font-size:.94rem}
+    .jd-section ul li{font-size:.9rem}
+  }
 </style>
 </head>
 <body>
@@ -173,7 +194,7 @@
 
 <div class="container">
   <section class="hero">
-    <img class="logo-image" src="kuku.png" alt="kuku — Tech for Good">
+    <img class="logo-image" src="kuku-tech-for-good.png" alt="kuku — Tech for Good">
     <h1>用 AI 重新定义工业可能</h1>
     <p id="heroText"></p><span class="typing-cursor"></span>
   </section>
@@ -214,6 +235,44 @@
         </div>
         <div class="jd-tags">
           <span class="tag">LangChain</span><span class="tag">LlamaIndex</span><span class="tag">LLM</span><span class="tag">Python</span><span class="tag">Tool Calling</span>
+        </div>
+      </div>
+      <div class="jd-card" data-role="AI 工艺工程师">
+        <h3>AI 工艺工程师</h3>
+        <p class="desc">面向化工类专业应届毕业生，参与 ProcAgent 在流程模拟、工艺设计和工程计算场景中的应用建设，探索 AI 与化工工程的深度结合。</p>
+        <div class="jd-section">
+          <h4>📋 你将负责</h4>
+          <ul>
+            <li>使用 Aspen HYSYS、DWSIM 等软件搭建和调试化工流程模型</li>
+            <li>完成物料衡算、能量衡算和工艺参数分析</li>
+            <li>检查 AI 生成的工艺方案、计算结果和技术文档</li>
+            <li>整理化工计算方法、流程模拟案例及专业资料</li>
+            <li>与研发团队协作，测试 AI 在流程模拟和工艺设计中的应用</li>
+          </ul>
+        </div>
+        <div class="jd-section">
+          <h4>✅ 我们希望你</h4>
+          <ul>
+            <li>仅限化学工程与工艺及其他化工类相关专业应届毕业生</li>
+            <li>掌握化工原理、化工热力学、反应工程和分离工程等专业基础</li>
+            <li>能够完成基本的物料衡算、能量衡算和化工流程分析</li>
+            <li>了解换热、精馏、吸收、反应和流体输送等常见单元操作</li>
+            <li>对流程模拟、工艺设计以及“AI＋化工”方向感兴趣</li>
+            <li>学习能力强，具备严谨的工程思维和良好的沟通能力</li>
+          </ul>
+        </div>
+        <div class="jd-section">
+          <h4>⭐ 优先考虑</h4>
+          <ul>
+            <li>使用过 Aspen HYSYS、Aspen Plus 或 DWSIM</li>
+            <li>有相关课程设计、毕业设计、科研项目或竞赛经历</li>
+            <li>能够独立搭建和调试基础化工流程模型</li>
+            <li>具备 Python、MATLAB、VBA 或其他编程能力</li>
+            <li>对 AI 工具和工程自动化有所了解</li>
+          </ul>
+        </div>
+        <div class="jd-tags">
+          <span class="tag">化工类专业</span><span class="tag">Aspen HYSYS</span><span class="tag">DWSIM</span><span class="tag">流程模拟</span><span class="tag">AI＋化工</span>
         </div>
       </div>
     </div>
@@ -297,6 +356,26 @@
     </form>
   </section>
 
+  <div class="divider"></div>
+
+  <section class="card" id="cardQrcodes">
+    <div class="section-title"><span class="icon">📱</span>关注与访问</div>
+    <div class="qr-grid">
+      <article class="qr-card">
+        <h3>官方网站</h3>
+        <img src="website-qrcode.png" alt="kuku 官方网站二维码">
+        <a class="qr-link" href="https://kukutech.io" target="_blank" rel="noopener noreferrer">https://kukutech.io</a>
+        <a class="qr-download" href="website-qrcode.png" download="kuku-website-qrcode.png">⬇ 保存官网二维码</a>
+      </article>
+      <article class="qr-card">
+        <h3>微信公众号</h3>
+        <img src="wechat-qrcode.jpg" alt="kuku 微信公众号二维码">
+        <a class="qr-link" href="http://weixin.qq.com/r/mp/4i6GnqrEdfcKre7993vw" target="_blank" rel="noopener noreferrer">打开公众号链接</a>
+        <a class="qr-download" href="wechat-qrcode.jpg" download="kuku-wechat-qrcode.jpg">⬇ 保存公众号二维码</a>
+      </article>
+    </div>
+  </section>
+
   <footer>
     <span class="footer-brand">kuku</span> · Tech for Good · © 2026
   </footer>
@@ -319,16 +398,16 @@ const GITHUB_TOKEN = TOKEN_PART1 + TOKEN_PART2;
   let W,H,pts=[];
   function resize(){W=c.width=innerWidth;H=c.height=innerHeight;init()}
   function init(){
-    pts=[];const n=innerWidth<768?35:70;
-    for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5,a:Math.random()*.3+.1});
+    pts=[];const n=innerWidth<768?50:95;
+    for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.8+.7,a:Math.random()*.32+.28});
   }
   function draw(){
-    ctx.clearRect(0,0,W,H);const maxD=100;
+    ctx.clearRect(0,0,W,H);const maxD=120;
     for(let i=0;i<pts.length;i++){
       const p=pts[i];p.x+=p.vx;p.y+=p.vy;
       p.x<0&&(p.x=W);p.x>W&&(p.x=0);p.y<0&&(p.y=H);p.y>H&&(p.y=0);
       ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(51,102,204,${p.a})`;ctx.fill();
-      for(let j=i+1;j<pts.length;j++){const q=pts[j],d=Math.hypot(p.x-q.x,p.y-q.y);d<maxD&&(ctx.beginPath(),ctx.moveTo(p.x,p.y),ctx.lineTo(q.x,q.y),ctx.strokeStyle=`rgba(51,102,204,${0.08*(1-d/maxD)})`,ctx.stroke())}
+      for(let j=i+1;j<pts.length;j++){const q=pts[j],d=Math.hypot(p.x-q.x,p.y-q.y);d<maxD&&(ctx.beginPath(),ctx.moveTo(p.x,p.y),ctx.lineTo(q.x,q.y),ctx.strokeStyle=`rgba(60,130,255,${0.18*(1-d/maxD)})`,ctx.stroke())}
     }requestAnimationFrame(draw);
   }
   window.addEventListener('resize',resize);resize();draw();
