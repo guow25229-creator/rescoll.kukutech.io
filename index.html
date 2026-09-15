@@ -309,6 +309,7 @@
   <section class="card" id="cardForm">
     <div class="section-title"><span class="icon">📝</span>投递简历</div>
     <form id="resumeForm">
+      <input type="hidden" name="role" id="role" value="AI Agent 开发工程师">
       <!-- ✅ 姓名 -->
       <div class="form-group">
         <label for="name">姓名 *</label>
@@ -330,7 +331,7 @@
       <!-- ✅ 自我介绍 -->
       <div class="form-group">
         <label for="intro">自我介绍</label>
-        <textarea name="message" id="intro" placeholder="简单介绍你的经历、优势和为什么想加入 kuku..."></textarea>
+        <textarea name="intro" id="intro" placeholder="简单介绍你的经历、优势和为什么想加入 kuku..."></textarea>
       </div>
 
       <!-- ✅ 上传简历 -->
@@ -342,7 +343,7 @@
           <p style="font-size:.75rem;margin-top:4px;color:var(--text-dim);opacity:.7">支持 PDF / DOCX</p>
           <div class="filename" id="fileName"></div>
         </div>
-        <input type="file" id="fileInput" accept=".pdf,.doc,.docx" required>
+        <input type="file" name="file" id="fileInput" accept=".pdf,.doc,.docx" required>
       </div>
 
       <div class="submit-tip" id="submitTip"></div>
@@ -382,15 +383,8 @@
 </div>
 
 <script>
-// ====================== 安全配置 ======================
-const GITHUB_USER = "guow25229-creator";
-const GITHUB_REPO = "kuku-resumes";
-const FOLDER = "resumes";
-
-// ✅ Token 拆分两段，GitHub 不会扫描删除
-const TOKEN_PART1 = "ghp_";
-const TOKEN_PART2 = "EfKk2rTNH29fDPHjjqa0wPyHoZF8Nk1YdIrK";
-const GITHUB_TOKEN = TOKEN_PART1 + TOKEN_PART2;
+// 简历由同域后端接收，访问凭据只保存在服务端环境变量中。
+const UPLOAD_ENDPOINT = '/upload';
 
 // 粒子动画
 (function(){
@@ -423,6 +417,7 @@ document.querySelectorAll('.about,.card').forEach(el=>obs.observe(el));
 
 document.querySelectorAll('.jd-card').forEach(el=>{
   el.addEventListener('click',()=>{
+    document.getElementById('role').value=el.dataset.role;
     document.getElementById('cardForm').scrollIntoView({behavior:'smooth'});
   });
 });
@@ -453,40 +448,19 @@ resumeForm.addEventListener('submit', async (e) => {
   submitTip.style.display = 'block';
   submitTip.textContent = '简历投递中';
 
-  const formData = new FormData(resumeForm);
-  const file = fileInput.files[0];
-
   try {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onloadend = async () => {
-      const base64 = reader.result.split(',')[1];
-      const filename = `${Date.now()}_${formData.get('name')}_${file.name}`;
-      const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FOLDER}/${filename}`;
-
-      const res = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          "Authorization": `token ${GITHUB_TOKEN}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message: `应聘 ${formData.get('name')}`,
-          content: base64
-        })
-      });
-
-      if(res.ok){
-        submitTip.textContent = '简历投递成功';
-        resumeForm.reset();
-        fileName.textContent = '';
-      }else{
-        submitTip.textContent = '投递失败，请重试';
-      }
-    };
+    const res = await fetch(UPLOAD_ENDPOINT, {
+      method: 'POST',
+      body: new FormData(resumeForm)
+    });
+    const result = await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error(result.error || '投递失败');
+    submitTip.textContent = result.message || '简历投递成功';
+    resumeForm.reset();
+    document.getElementById('role').value='AI Agent 开发工程师';
+    fileName.textContent = '';
   } catch (err) {
-    submitTip.textContent = '网络异常，请重试';
+    submitTip.textContent = err.message || '网络异常，请重试';
   } finally {
     submitBtn.disabled = false;
     submitBtn.innerHTML = '<span class="btn-shine"></span>🚀 提交简历';
