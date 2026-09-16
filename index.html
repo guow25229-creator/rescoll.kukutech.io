@@ -502,7 +502,7 @@ resumeForm.addEventListener('submit', async (e) => {
   // 显示投递中
   submitBtn.disabled = true;
   submitBtn.innerHTML = '⏳ 提交中...';
-  showSubmitTip('loading','正在安全上传，请稍候，不要关闭页面。');
+  showSubmitTip('loading','正在投递，请稍候，不要关闭页面。');
 
   try {
     const res = await fetch(UPLOAD_ENDPOINT, {
