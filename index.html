@@ -146,20 +146,41 @@
   }
   .submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,51,153,.4)}
   .submit-btn:active{transform:scale(.97)}
+  .submit-btn:disabled{cursor:wait;opacity:.72;transform:none;box-shadow:none}
   .submit-btn .btn-shine{position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transform:skewX(-20deg);animation:shine 3s infinite}
   @keyframes shine{0%{left:-75%}100%{left:125%}}
 
   .submit-tip{
-    margin-top: 16px;
-    padding: 12px;
-    border-radius: 10px;
-    text-align: center;
-    font-weight: 600;
-    display: none;
-    background: rgba(0,180,216,.15);
-    color: #fff;
-    border: 1px solid rgba(0,180,216,.3);
+    --tip-color:#00b4d8;--tip-rgb:0,180,216;
+    position:fixed;z-index:100;top:24px;right:24px;
+    width:min(390px,calc(100vw - 32px));padding:16px 46px 16px 16px;
+    display:grid;grid-template-columns:42px minmax(0,1fr);gap:13px;align-items:center;
+    border:1px solid rgba(var(--tip-rgb),.34);border-radius:16px;
+    background:linear-gradient(135deg,rgba(18,25,43,.96),rgba(9,14,27,.94));
+    box-shadow:0 18px 50px rgba(0,0,0,.38),0 0 28px rgba(var(--tip-rgb),.13);
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    opacity:0;visibility:hidden;pointer-events:none;
+    transform:translateY(-14px) scale(.98);
+    transition:opacity .25s ease,transform .32s cubic-bezier(.2,.8,.2,1),visibility .25s;
+    overflow:hidden;
   }
+  .submit-tip.is-visible{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1)}
+  .submit-tip--success{--tip-color:#34d399;--tip-rgb:52,211,153}
+  .submit-tip--error{--tip-color:#fb7185;--tip-rgb:251,113,133}
+  .submit-tip--loading{--tip-color:#38bdf8;--tip-rgb:56,189,248}
+  .submit-tip__icon{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:rgba(var(--tip-rgb),.14);color:var(--tip-color);font-size:1.25rem;font-weight:800;box-shadow:inset 0 0 0 1px rgba(var(--tip-rgb),.18)}
+  .submit-tip--loading .submit-tip__icon::before{content:'';width:18px;height:18px;border:2px solid rgba(var(--tip-rgb),.28);border-top-color:var(--tip-color);border-radius:50%;animation:tipSpin .8s linear infinite}
+  .submit-tip--loading .submit-tip__icon span{display:none}
+  .submit-tip__title{color:#fff;font-size:.96rem;font-weight:700;line-height:1.35;margin-bottom:3px}
+  .submit-tip__message{color:rgba(232,232,236,.7);font-size:.84rem;line-height:1.55;overflow-wrap:anywhere}
+  .submit-tip__close{position:absolute;right:11px;top:11px;width:28px;height:28px;border:0;border-radius:8px;background:transparent;color:rgba(232,232,236,.48);font-size:1.25rem;line-height:1;cursor:pointer;transition:background .2s,color .2s}
+  .submit-tip__close:hover{background:rgba(255,255,255,.08);color:#fff}
+  .submit-tip__bar{position:absolute;left:0;bottom:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--tip-color),transparent);opacity:.8;transform-origin:left}
+  .submit-tip--loading .submit-tip__bar{animation:tipLoad 1.4s ease-in-out infinite}
+  @keyframes tipSpin{to{transform:rotate(360deg)}}
+  @keyframes tipLoad{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+  @media(max-width:600px){.submit-tip{top:14px;right:16px;padding:14px 42px 14px 14px;grid-template-columns:38px minmax(0,1fr);gap:11px}.submit-tip__icon{width:38px;height:38px;border-radius:11px}}
+  @media(prefers-reduced-motion:reduce){.submit-tip,.submit-tip__bar,.submit-tip__icon::before{animation:none!important;transition:none!important}}
 
   .qr-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
   .qr-card{text-align:center;padding:22px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
@@ -191,6 +212,15 @@
 <div class="orb orb--2"></div>
 <div class="orb orb--3"></div>
 <div class="cursor-glow" id="cursorGlow"></div>
+<div class="submit-tip" id="submitTip" role="status" aria-live="polite" aria-atomic="true">
+  <div class="submit-tip__icon" aria-hidden="true"><span id="submitTipIcon">✓</span></div>
+  <div>
+    <div class="submit-tip__title" id="submitTipTitle">投递成功</div>
+    <div class="submit-tip__message" id="submitTipMessage"></div>
+  </div>
+  <button class="submit-tip__close" id="submitTipClose" type="button" aria-label="关闭提醒">×</button>
+  <div class="submit-tip__bar" aria-hidden="true"></div>
+</div>
 
 <div class="container">
   <section class="hero">
@@ -346,8 +376,6 @@
         <input type="file" name="file" id="fileInput" accept=".pdf,.doc,.docx" required>
       </div>
 
-      <div class="submit-tip" id="submitTip"></div>
-
       <div style="text-align:center">
         <button type="submit" class="submit-btn">
           <span class="btn-shine"></span>
@@ -431,22 +459,50 @@ fileInput.addEventListener('change',()=>fileName.textContent=fileInput.files.len
 // ====================== 提交功能 ======================
 const resumeForm = document.getElementById('resumeForm');
 const submitTip = document.getElementById('submitTip');
+const submitTipTitle = document.getElementById('submitTipTitle');
+const submitTipMessage = document.getElementById('submitTipMessage');
+const submitTipIcon = document.getElementById('submitTipIcon');
+const submitTipClose = document.getElementById('submitTipClose');
 const submitBtn = resumeForm.querySelector('.submit-btn');
+let submitTipTimer;
+
+function hideSubmitTip(){
+  clearTimeout(submitTipTimer);
+  submitTip.classList.remove('is-visible');
+}
+
+function showSubmitTip(type, message){
+  const content = {
+    loading:{title:'正在投递简历',icon:''},
+    success:{title:'投递成功',icon:'✓'},
+    error:{title:'投递失败',icon:'!'}
+  }[type];
+
+  clearTimeout(submitTipTimer);
+  submitTip.className = `submit-tip submit-tip--${type}`;
+  submitTip.setAttribute('role',type === 'error' ? 'alert' : 'status');
+  submitTipTitle.textContent = content.title;
+  submitTipMessage.textContent = message;
+  submitTipIcon.textContent = content.icon;
+  requestAnimationFrame(()=>submitTip.classList.add('is-visible'));
+
+  if(type === 'success') submitTipTimer = setTimeout(hideSubmitTip,6000);
+}
+
+submitTipClose.addEventListener('click',hideSubmitTip);
 
 resumeForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   if(!fileInput.files.length){
-    submitTip.textContent = '请上传简历文件';
-    submitTip.style.display = 'block';
+    showSubmitTip('error','请先上传 PDF、DOC 或 DOCX 格式的简历文件。');
     return;
   }
 
   // 显示投递中
   submitBtn.disabled = true;
   submitBtn.innerHTML = '⏳ 提交中...';
-  submitTip.style.display = 'block';
-  submitTip.textContent = '简历投递中';
+  showSubmitTip('loading','正在安全上传，请稍候，不要关闭页面。');
 
   try {
     const res = await fetch(UPLOAD_ENDPOINT, {
@@ -455,12 +511,12 @@ resumeForm.addEventListener('submit', async (e) => {
     });
     const result = await res.json().catch(()=>({}));
     if(!res.ok) throw new Error(result.error || '投递失败');
-    submitTip.textContent = result.message || '简历投递成功';
+    showSubmitTip('success',result.message || '我们已经收到你的简历，会尽快与你联系。');
     resumeForm.reset();
     document.getElementById('role').value='AI Agent 开发工程师';
     fileName.textContent = '';
   } catch (err) {
-    submitTip.textContent = err.message || '网络异常，请重试';
+    showSubmitTip('error',err.message || '网络异常，请稍后重试。');
   } finally {
     submitBtn.disabled = false;
     submitBtn.innerHTML = '<span class="btn-shine"></span>🚀 提交简历';
